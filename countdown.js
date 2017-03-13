@@ -2,16 +2,18 @@
 
 window.onload = function(){ 
     
-var h1 = document.getElementsByTagName('h1')[0];
 var h2 = document.getElementsByTagName('h2')[0];
 var start = document.getElementById('startbutton');
 var stop = document.getElementById('stopbutton');
 var reset = document.getElementById('resetbutton');
-var doubletime = document.getElementById('doubleup');
+var doubletime = document.getElementById('doubletime');
 var seconds = 0;
 var minutes = 0; 
 var hours = 0;
 var time;
+//var secondsOutput = 0;
+//var minutesOutput = 0;
+//var hoursOutput = 0;
 
 function up() {
     seconds = seconds +1;
@@ -26,18 +28,60 @@ function up() {
     
    //h1.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
     timer();
-    refresh();
-    display();
-    //speed();
+    display(); 
 }
+
+
+function refreshSeconds()
+{
+    var secondsOutput = "";
     
-function refresh() {
-        h1.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);  
+    if (seconds <= 9){
+        secondsOutput = "0" + seconds;
+    }
     
+    else {
+        secondsOutput = seconds;
+    }
+    return secondsOutput;
+}
+
+function refreshMinutes()
+{
+    var minutesOutput = "";
+    
+    if (minutes >1 && minutes <9){
+        minutesOutput = "0" + minutes;
+    }
+    
+    else if (minutes >9){
+        minutesOutput = minutes;
+    }
+    else {
+        minutesOutput = "00"
+    }
+    return minutesOutput;
+}
+
+function refreshHours()
+{
+    var hoursOutput = "";
+    if (hours >1 && hours <9){
+        hoursOutput = "0" + hours;
+    }
+    
+    else if (hours >9){
+        hoursOutput = hours;
+    }
+    
+    else {
+        hoursOutput = "00"
+    }
+    return hoursOutput;
 }
     
 function display() {
-    h2.textContent = "0" +(hours) + ":" + "0" + (minutes) + ":" + "0" +(seconds);  
+    h2.textContent = refreshHours() + ":" + refreshMinutes() + ":" + refreshSeconds();  
 }
 
 
@@ -46,28 +90,25 @@ function timer() {
 }
 timer();
     
-function speed() {
-    time = setTimeout(up, 2000); // this function delays the function from refresh to every two sections - it doesnt speed up!
-}
-//speed();
-
-
-// start
+// start button
 start.onclick = timer;
-    
-// doublespeed
-//doubletime.onclick = speed;
 
-// stop
+// stop button
 stop.onclick = function() {
     clearTimeout(time);
 }
 
-// reset
+// reset button
 reset.onclick = function() {
     seconds = 0; minutes = 0; hours = 0;
-    refresh();
+    display();
 }
+
+// speed up button
+doubletime.onclick = function () {
+    time = setTimeout(up, 500); // this function delays the function from refresh to every two sections - it doesnt speed up!
+}
+
 
 
 }
